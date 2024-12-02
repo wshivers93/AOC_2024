@@ -37,6 +37,9 @@ func main() {
 
 	totalDistance := getTotalDistance(firstList, secondList)
 	fmt.Println("Total distance: ", totalDistance)
+
+	similarityScore := getSimilarityScore(firstList, secondList)
+	fmt.Println("Similarity score: ", similarityScore)
 }
 
 func getTotalDistance(arr1 []int64, arr2 []int64) int64 {
@@ -54,4 +57,34 @@ func getTotalDistance(arr1 []int64, arr2 []int64) int64 {
 	}
 
 	return totalDistance
+}
+
+func getSimilarityScore(arr1 []int64, arr2 []int64) int64 {
+	var similarityScore int64
+	entries := len(arr1)
+
+	for i := 0; i < entries; i++ {
+		val := arr1[i]
+		occurrences := countAll(val, arr2)
+
+		similarityScore += val * occurrences
+	}
+
+	return similarityScore
+}
+
+func countAll(val int64, arr []int64) int64 {
+	var count int64
+
+	for _, i := range arr {
+		if val == i {
+			count++
+		}
+
+		if val < i {
+			break
+		}
+	}
+
+	return count
 }
