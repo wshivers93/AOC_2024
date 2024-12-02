@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
-	"slices"
 )
 
 func main() {
@@ -53,5 +53,5 @@ func getTotalDistance(arr1 []int64, arr2 []int64) int64 {
 		totalDistance += distance
 	}
 
-	return totalDistance 
+	return totalDistance
 }
