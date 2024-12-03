@@ -23,3 +23,7 @@ func countAll(val int64, arr []int64) int64 {
 	return count
 }
 ```
+
+### Day 2 
+
+Day 2 was also pretty straightforward, another day of evaluating a slice of numbers. For part two I initially wanted to find the index of the first bad level and start my deletions from there. But my toddler started trying to smash buttons on my keyboard so decided to just brute force the deletions. If I have time later may come back and try to optimize this one, I feel like there are a few areas I could clean up. 
