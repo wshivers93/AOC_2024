@@ -4,8 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
+	"slices"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -17,24 +18,16 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 	var safeReports int
+	var safeReportsWithDampener int
 	for scanner.Scan() {
 		line := scanner.Text()
 		report := strings.Fields(line)
-		shouldBeDecreasing := isDecreasing(report[0], report[1])
-		isSafe := true
+		reportSafe := isReportSafe(report)	
 
-		for i := 0; i < len(report) - 1; i++ {
-			isDec := isDecreasing(report[i], report[i+1])
-			isSafeDist := isSafeDistance(report[i], report[i+1])
-
-			if (isDec != shouldBeDecreasing || !isSafeDist) {
-				isSafe = false
-				break
-			}
-		}
-
-		if (isSafe) {
+		if (reportSafe) {
 			safeReports++
+		} else if (isReportSafeWithDampener(report)) {
+			safeReportsWithDampener++
 		}
 	}
 
@@ -43,18 +36,7 @@ func main() {
 	}
 
 	fmt.Println("safe reports: ", safeReports)
-}
-
-func isDecreasing(val1 string, val2 string) bool {
-	int1, _ := strconv.Atoi(val1) 
-	int2, _ := strconv.Atoi(val2) 
-	diff := int1 - int2 
-
-	if (diff < 0) {
-		return false 
-	}
-
-	return true 
+	fmt.Println("safe reports with dampener: ", safeReports + safeReportsWithDampener)
 }
 
 func isSafeDistance(val1 string, val2 string) bool {
@@ -75,4 +57,45 @@ func isSafeDistance(val1 string, val2 string) bool {
 	} else {
 		return false
 	}
+}
+
+func isReportSafe(report []string) bool {
+	decreased := false
+	increased := false
+
+	for i := 0; i < len(report) - 1; i++ {
+		val1, _ := strconv.Atoi(report[i])
+		val2, _ := strconv.Atoi(report[i+1])
+		diff := val1 - val2
+
+		if (diff < 0) {
+			decreased = true
+		}
+
+		if (0 < diff) {
+			increased = true
+		}
+
+		safeDistance := isSafeDistance(report[i], report[i+1])	
+
+		if ((increased && decreased) || !safeDistance) {
+			return false
+		}
+	}
+	return true
+}
+
+func isReportSafeWithDampener(report []string) bool {
+	for i := 0; i < len(report); i++ {
+		reportClone := slices.Clone(report)
+		modifiedReport := slices.Delete(reportClone, i, i+1)
+		reportSafe := isReportSafe(modifiedReport)
+
+		if (reportSafe) {
+			return true
+		}
+		
+	}
+
+	return false 
 }
