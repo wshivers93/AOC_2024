@@ -22,11 +22,11 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		report := strings.Fields(line)
-		reportSafe := isReportSafe(report)	
+		reportSafe := isReportSafe(report)
 
-		if (reportSafe) {
+		if reportSafe {
 			safeReports++
-		} else if (isReportSafeWithDampener(report)) {
+		} else if isReportSafeWithDampener(report) {
 			safeReportsWithDampener++
 		}
 	}
@@ -36,23 +36,23 @@ func main() {
 	}
 
 	fmt.Println("safe reports: ", safeReports)
-	fmt.Println("safe reports with dampener: ", safeReports + safeReportsWithDampener)
+	fmt.Println("safe reports with dampener: ", safeReports+safeReportsWithDampener)
 }
 
 func isSafeDistance(val1 string, val2 string) bool {
-	int1, _ := strconv.Atoi(val1) 
-	int2, _ := strconv.Atoi(val2) 
-	diff := int1 - int2 
+	int1, _ := strconv.Atoi(val1)
+	int2, _ := strconv.Atoi(val2)
+	diff := int1 - int2
 
-	if (diff == 0) {
+	if diff == 0 {
 		return false
 	}
 
-	if (diff < 0) {
+	if diff < 0 {
 		diff = -diff
 	}
 
-	if (1 <= diff && diff <= 3) {
+	if 1 <= diff && diff <= 3 {
 		return true
 	} else {
 		return false
@@ -63,22 +63,22 @@ func isReportSafe(report []string) bool {
 	decreased := false
 	increased := false
 
-	for i := 0; i < len(report) - 1; i++ {
+	for i := 0; i < len(report)-1; i++ {
 		val1, _ := strconv.Atoi(report[i])
 		val2, _ := strconv.Atoi(report[i+1])
 		diff := val1 - val2
 
-		if (diff < 0) {
+		if diff < 0 {
 			decreased = true
 		}
 
-		if (0 < diff) {
+		if 0 < diff {
 			increased = true
 		}
 
-		safeDistance := isSafeDistance(report[i], report[i+1])	
+		safeDistance := isSafeDistance(report[i], report[i+1])
 
-		if ((increased && decreased) || !safeDistance) {
+		if (increased && decreased) || !safeDistance {
 			return false
 		}
 	}
@@ -91,11 +91,11 @@ func isReportSafeWithDampener(report []string) bool {
 		modifiedReport := slices.Delete(reportClone, i, i+1)
 		reportSafe := isReportSafe(modifiedReport)
 
-		if (reportSafe) {
+		if reportSafe {
 			return true
 		}
-		
+
 	}
 
-	return false 
+	return false
 }
