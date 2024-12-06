@@ -7,7 +7,6 @@ import (
 	"github.com/wshivers93/AOC_2024/util"
 )
 
-// 2457 is too low
 func main() {
 	fmt.Println("Hello day4")
 	scanner, file := util.GetFileScanner(util.GetCurrentDirectory() + "/day4_input.txt")
