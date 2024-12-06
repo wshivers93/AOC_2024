@@ -39,7 +39,7 @@ func main() {
 
 		if insEnabled && strings.Contains(stringVal, "mul") {
 			total2 += multiply(stringVal)
-		}	
+		}
 	}
 
 	fmt.Println("Part 2 result: ", total2)
